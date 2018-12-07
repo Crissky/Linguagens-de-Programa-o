@@ -51,7 +51,7 @@ public class Philosopher implements Runnable {
 		}
 	}
 
-	public synchronized void takeFork() {
+	public void takeFork() {
 		Fork[] forks = null;
 
 		while (forks == null) {
