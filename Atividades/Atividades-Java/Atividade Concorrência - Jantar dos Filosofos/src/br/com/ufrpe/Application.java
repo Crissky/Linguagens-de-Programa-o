@@ -7,7 +7,7 @@ import br.com.ufrpe.domain.Fork;
 import br.com.ufrpe.domain.Philosopher;
 import br.com.ufrpe.domain.Table;
 
-public class Aplication {
+public class Application {
 
 	public static void main(String[] args) {
 		int numFork = 5;
