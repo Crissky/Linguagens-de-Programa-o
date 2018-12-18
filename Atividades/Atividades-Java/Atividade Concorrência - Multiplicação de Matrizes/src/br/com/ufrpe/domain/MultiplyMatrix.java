@@ -14,7 +14,9 @@ public class MultiplyMatrix {
 		this.matrix2 = matrix2;
 		
 		if(!this.isMultipliable()) {
-			throw new Exception("As matrizes informadas não podem ser multiplicas. O número de colunas da 1º Matriz deve ser igual ao número de linhas da 2º Matriz");
+			throw new Exception("As matrizes informadas não podem ser multiplicas."
+					+ "O número de colunas da 1º Matriz deve ser igual ao número de linhas da 2º Matriz."
+					);
 		}
 
 		int rows = this.matrix1.length;
