@@ -1,6 +1,8 @@
 package br.com.ufrpe.domain;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MultiplyMatrix {
 	private int[][] matrix1;
@@ -12,7 +14,7 @@ public class MultiplyMatrix {
 		this.matrix2 = matrix2;
 		
 		if(!this.isMultipliable()) {
-			throw new Exception("As matrizes informadas não podem ser multiplicas");
+			throw new Exception("As matrizes informadas não podem ser multiplicas. O número de colunas da 1º Matriz deve ser igual ao número de linhas da 2º Matriz");
 		}
 
 		int rows = this.matrix1.length;
@@ -23,26 +25,44 @@ public class MultiplyMatrix {
 	public void startMultiply() {
 		int numRows = this.matrixResult.length;
 		int numcolumns = this.matrixResult[0].length;
-		MultiplyPoint multiplier;
+		MultiplyCell multiplier;
+		List<Thread> threads = new ArrayList<Thread>();
 		
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numcolumns; j++) {
-				multiplier = new MultiplyPoint(this, j, i);
+				multiplier = new MultiplyCell(this, j, i);
 				Thread thread = new Thread(multiplier);
-				thread.start();
-				try {
-					thread.join();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				threads.add(thread);
 			}
 		}
 		
+		startThreads(threads);
+		joinThreads(threads);
+		printAllMatrices();
+	}
+
+	private void joinThreads(List<Thread> threads) {
+		for (Thread thread : threads) {
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private void startThreads(List<Thread> threads) {
+		for (Thread thread : threads) {
+			thread.start();
+		}
+	}
+
+	private void printAllMatrices() {
 		System.out.println("Matriz 1");
 		this.printMatrix(this.matrix1);
-		System.out.println("Matriz 2");
+		System.out.println("\nMatriz 2");
 		this.printMatrix(this.matrix2);
-		System.out.println("Matriz Resultado");
+		System.out.println("\nMatriz Resultado");
 		this.printMatrix(this.matrixResult);
 	}
 	

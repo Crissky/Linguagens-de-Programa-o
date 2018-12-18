@@ -5,7 +5,7 @@ import br.com.ufrpe.domain.MultiplyMatrix;
 public class Application {
 
 	public static void main(String[] args) {
-		int[][] matrix1 = new int[2][3];
+		int[][] matrix1 = new int[2][4];
 		int[][] matrix2 = new int[3][2];
 		
 		matrix1[0][0] = 1;
@@ -26,7 +26,6 @@ public class Application {
 			MultiplyMatrix multiplyMatrix = new MultiplyMatrix(matrix1, matrix2);
 			multiplyMatrix.startMultiply();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
