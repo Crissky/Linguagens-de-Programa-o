@@ -161,5 +161,4 @@ public class MultiplyMatrix {
 			setCellResult(this.column, this.row, multiplyCellResult);
 		}
 	}
-
 }
