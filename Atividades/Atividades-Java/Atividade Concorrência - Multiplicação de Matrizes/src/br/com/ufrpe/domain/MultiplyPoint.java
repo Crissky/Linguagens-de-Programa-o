@@ -1,11 +1,11 @@
 package br.com.ufrpe.domain;
 
-public class MultiplyCell implements Runnable{
-	private MultiplyMatrix multiplyMatrix;
+public class MultiplyPoint implements Runnable{
+	private MultiplyMatrix2 multiplyMatrix;
 	private int column;
 	private int row;
 	
-	public MultiplyCell(MultiplyMatrix multiplyMatrix, int column, int row) {
+	public MultiplyPoint(MultiplyMatrix2 multiplyMatrix, int column, int row) {
 		this.multiplyMatrix = multiplyMatrix;
 		this.column = column;
 		this.row = row;
@@ -14,9 +14,9 @@ public class MultiplyCell implements Runnable{
 	@Override
 	public void run() {
 		int multiplyCellResult = 0;
-		int num = this.multiplyMatrix.getMatrix2().length;
+		int numOperation = this.multiplyMatrix.getMatrix2().length;
 		
-		for (int i = 0; i < num; i++) {
+		for (int i = 0; i < numOperation; i++) {
 			int valueRow = this.multiplyMatrix.getMatrix1()[this.row][i];
 			int valueColumn = this.multiplyMatrix.getMatrix2()[i][this.column];
 			multiplyCellResult += valueRow * valueColumn;

@@ -25,22 +25,40 @@ public class MultiplyMatrix {
 	}
 
 	public void startMultiply() {
-		int numRows = this.matrixResult.length;
-		int numcolumns = this.matrixResult[0].length;
-		MultiplyCell multiplier;
 		List<Thread> threads = new ArrayList<Thread>();
+		this.startMultiply(0, 0, threads);
+	}
+
+	public void startMultiply(int column, int row, List<Thread> threads) {
+		int numRows = this.matrixResult.length - 1;
+		int numColumns = this.matrixResult[0].length;
 		
-		for (int i = 0; i < numRows; i++) {
-			for (int j = 0; j < numcolumns; j++) {
-				multiplier = new MultiplyCell(this, j, i);
-				Thread thread = new Thread(multiplier);
-				threads.add(thread);
-			}
+		if(column < numColumns) {
+			createMultiplyCellThread(column, row, threads);
+		} else if (row < numRows) {
+			this.startMultiply(0, (row+1), threads);
+		} else {
+			runMultiply(threads);
 		}
-		
+	}
+
+	private void createMultiplyCellThread(int column, int row, List<Thread> threads) {
+		MultiplyCell multiplier = new MultiplyCell(column, row);
+		Thread thread = new Thread(multiplier);
+		threads.add(thread);
+		this.startMultiply((column+1), row, threads);
+	}
+	
+	private void runMultiply(List<Thread> threads) {
 		startThreads(threads);
 		joinThreads(threads);
-		printAllMatrices();
+		printResult();
+	}
+
+	private void startThreads(List<Thread> threads) {
+		for (Thread thread : threads) {
+			thread.start();
+		}
 	}
 
 	private void joinThreads(List<Thread> threads) {
@@ -53,21 +71,6 @@ public class MultiplyMatrix {
 		}
 	}
 
-	private void startThreads(List<Thread> threads) {
-		for (Thread thread : threads) {
-			thread.start();
-		}
-	}
-
-	private void printAllMatrices() {
-		System.out.println("Matriz 1");
-		this.printMatrix(this.matrix1);
-		System.out.println("\nMatriz 2");
-		this.printMatrix(this.matrix2);
-		System.out.println("\nMatriz Resultado");
-		this.printMatrix(this.matrixResult);
-	}
-	
 	public boolean isMultipliable() {
 		boolean result = true;
 		
@@ -76,10 +79,6 @@ public class MultiplyMatrix {
 		}
 		
 		return result;
-	}
-	
-	public void setCellResult(int column, int row, int cellResult) {
-		this.matrixResult[row][column] = cellResult;
 	}
 	
 	public Boolean isMatrix(int[][] matrix) {
@@ -95,11 +94,20 @@ public class MultiplyMatrix {
 		
 		return result;
 	}
-	
+
 	public void printMatrix(int[][] matrix) {
 		for (int[] is : matrix) {
 			System.out.println(Arrays.toString(is));
 		}
+	}
+
+	private void printResult() {
+		System.out.println("\nMatriz 1");
+		this.printMatrix(this.matrix1);
+		System.out.println("\nMatriz 2");
+		this.printMatrix(this.matrix2);
+		System.out.println("\nMatriz Resultado");
+		this.printMatrix(this.matrixResult);
 	}
 
 	public int[][] getMatrix1() {
@@ -125,4 +133,33 @@ public class MultiplyMatrix {
 	public void setMatrixResult(int[][] matrixResult) {
 		this.matrixResult = matrixResult;
 	}
+	
+	public void setCellResult(int column, int row, int cellResult) {
+		this.matrixResult[row][column] = cellResult;
+	}
+
+	class MultiplyCell implements Runnable{
+		private int column;
+		private int row;
+		
+		public MultiplyCell(int column, int row) {
+			this.column = column;
+			this.row = row;
+		}
+
+		@Override
+		public void run() {
+			int multiplyCellResult = 0;
+			int numOperation = matrix2.length;
+			
+			for (int i = 0; i < numOperation; i++) {
+				int valueRow = matrix1[this.row][i];
+				int valueColumn = matrix2[i][this.column];
+				multiplyCellResult += valueRow * valueColumn;
+			}
+			
+			setCellResult(this.column, this.row, multiplyCellResult);
+		}
+	}
+
 }
