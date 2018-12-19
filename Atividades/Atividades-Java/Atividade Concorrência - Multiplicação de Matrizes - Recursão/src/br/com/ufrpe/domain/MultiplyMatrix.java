@@ -14,7 +14,7 @@ public class MultiplyMatrix {
 		this.matrix2 = matrix2;
 		
 		if(!this.isMultipliable()) {
-			throw new Exception("As matrizes informadas não podem ser multiplicas."
+			throw new Exception("As matrizes informadas não podem ser multiplicadas. "
 					+ "O número de colunas da 1º Matriz deve ser igual ao número de linhas da 2º Matriz."
 					);
 		}
@@ -137,7 +137,7 @@ public class MultiplyMatrix {
 	public void setCellResult(int column, int row, int cellResult) {
 		this.matrixResult[row][column] = cellResult;
 	}
-
+	
 	class MultiplyCell implements Runnable{
 		private int column;
 		private int row;
@@ -150,15 +150,24 @@ public class MultiplyMatrix {
 		@Override
 		public void run() {
 			int multiplyCellResult = 0;
-			int numOperation = matrix2.length;
+			int totalNumOperation = matrix2.length;
 			
-			for (int i = 0; i < numOperation; i++) {
-				int valueRow = matrix1[this.row][i];
-				int valueColumn = matrix2[i][this.column];
-				multiplyCellResult += valueRow * valueColumn;
+			this.calculate(multiplyCellResult, 0, totalNumOperation);
+		}
+		
+		private void calculate(int multiplyCellResult, int numOperation, int totalNumOperation) {
+			if(numOperation < totalNumOperation) {
+				multiplyAndSum(multiplyCellResult, numOperation, totalNumOperation);
+			} else {
+				setCellResult(this.column, this.row, multiplyCellResult);
 			}
-			
-			setCellResult(this.column, this.row, multiplyCellResult);
+		}
+
+		private void multiplyAndSum(int multiplyCellResult, int numOperation, int totalNumOperation) {
+			int valueRow = matrix1[this.row][numOperation];
+			int valueColumn = matrix2[numOperation][this.column];
+			multiplyCellResult += valueRow * valueColumn;
+			this.calculate(multiplyCellResult, (numOperation+1), totalNumOperation);
 		}
 	}
 }

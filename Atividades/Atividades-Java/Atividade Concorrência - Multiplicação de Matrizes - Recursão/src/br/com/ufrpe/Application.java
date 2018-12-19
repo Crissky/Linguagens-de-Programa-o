@@ -1,10 +1,25 @@
 package br.com.ufrpe;
 
+import java.util.Random;
+
 import br.com.ufrpe.domain.MultiplyMatrix;
 
 public class Application {
 
 	public static void main(String[] args) {
+		/*
+		int[][] matrix1 = new int[10][10];
+		int[][] matrix2 = new int[10][10];
+		Random rand = new Random();
+		
+		for (int i = 0; i < matrix2.length; i++) {
+			for (int j = 0; j < matrix2[0].length; j++) {
+				matrix1[i][j] = rand.nextInt(5);
+				matrix2[i][j] = rand.nextInt(5);
+			}
+		}
+		*/
+		
 		int[][] matrix1 = new int[2][4];
 		int[][] matrix2 = new int[4][2];
 		
@@ -26,6 +41,8 @@ public class Application {
 		matrix2[2][1] = 7;
 		matrix2[3][1] = 8;
 		
+		long time1 = java.lang.System.currentTimeMillis();
+		
 		try {
 			MultiplyMatrix multiplyMatrix = new MultiplyMatrix(matrix1, matrix2);
 			multiplyMatrix.startMultiply();
@@ -35,6 +52,10 @@ public class Application {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		long time2 = java.lang.System.currentTimeMillis();
+		
+		System.out.println("\nTempo total: " + ((float) (time2-time1) / 1000) + " segundos");
 	}
 
 }
