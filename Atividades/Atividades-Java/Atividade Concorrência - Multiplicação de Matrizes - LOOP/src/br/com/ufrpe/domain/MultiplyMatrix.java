@@ -32,6 +32,10 @@ public class MultiplyMatrix {
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numColumns; j++) {
 				createMultiplyCellThread(j, i, threads);
+				if(threads.size() > 1000) {
+					runMultiply(threads);
+					threads.clear();
+				}
 			}
 		}
 		
@@ -149,7 +153,7 @@ public class MultiplyMatrix {
 			
 			this.calculate(multiplyCellResult, totalNumOperation);
 		}
-		
+
 		private void calculate(int multiplyCellResult, int totalNumOperation) {
 			for (int i = 0; i < totalNumOperation; i++) {
 				int valueRow = matrix1[this.row][i];
