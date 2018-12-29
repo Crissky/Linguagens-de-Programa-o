@@ -7,19 +7,6 @@ import br.com.ufrpe.domain.MultiplyMatrix;
 public class Application {
 
 	public static void main(String[] args) {
-		/*
-		int[][] matrix1 = new int[10][10];
-		int[][] matrix2 = new int[10][10];
-		Random rand = new Random();
-		
-		for (int i = 0; i < matrix2.length; i++) {
-			for (int j = 0; j < matrix2[0].length; j++) {
-				matrix1[i][j] = rand.nextInt(5);
-				matrix2[i][j] = rand.nextInt(5);
-			}
-		}
-		*/
-		
 		int[][] matrix1 = new int[2][4];
 		int[][] matrix2 = new int[4][2];
 		
